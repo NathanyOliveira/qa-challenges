@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm create *)",
+      "PowerShell(npm create *)",
+      "PowerShell(node --version; where.exe node 2>&1)",
+      "PowerShell(Get-ChildItem *)",
+      "PowerShell([System.Environment]::GetEnvironmentVariable\\(\"PATH\",\"User\"\\) | Out-String)",
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\gabri\\\\AppData\\\\Roaming\" -Directory 2>&1 | Where-Object { $_.Name -match \"npm|node\" }; Get-ChildItem \"C:\\\\Users\\\\gabri\\\\AppData\\\\Local\" -Directory 2>&1 | Where-Object { $_.Name -match \"npm|node|fnm|volta|nvm\" })"
+    ]
+  }
+}

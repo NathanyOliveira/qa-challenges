@@ -1,0 +1,16 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  font-family: 'Raleway', sans-serif;
+  background: linear-gradient(135deg, #1a0533 0%, #3b1278 40%, #6b2fa0 75%, #9b4dca 100%);
+  min-height: 100vh;
+  color: #f0e6ff;
+}
