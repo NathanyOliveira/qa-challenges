@@ -13,7 +13,7 @@ test("Successfully find astrological sign", async({page}) => {
 }) 
 
 test('Invalid date format', async({page}) =>{
-    await page.getByLabel("name").fill('Xuxa') // avoid placeholder whenever possible
+    await page.getByLabel("name").fill('Xuxa') // Avoid using placeholders whenever possible.
     await page.getByLabel("birthday").fill('27/03-1963')
     await page.getByRole('button', { name: 'Find Astrological Sign' }).click()
     await expect(page.getByText("Invalid date. Please use the format dd-mm-yyyy.")).toBeVisible()
