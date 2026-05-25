@@ -6,8 +6,8 @@ test.beforeEach(async({page}) => {
 })
 
 test("Successfully find astrological sign", async({page}) => {
-    await page.getByPlaceholder("Enter your name").fill('Xuxa')
-    await page.getByPlaceholder("dd-mm-yyyy").fill('27-03-1963')
+    await page.getByLabel("name").fill('Xuxa')
+    await page.getByLabel("birthday").fill('27-03-1963')
     await page.getByRole('button', { name: 'Find Astrological Sign' }).click()
     await expect(page.getByText("Xuxa, your astrological sign is Aries")).toBeVisible()
 }) 
