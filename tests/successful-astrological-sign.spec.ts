@@ -1,36 +1,50 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 
-test.describe('Challlenge 1 - Astrological Sign', () =>{
+test.describe('Challenge 1 - Astrological Sign', () => {
 
-test.beforeEach(async({page}) => {
-    await page.goto('http://localhost:5173/challenge-1')
-    await expect(page).toHaveTitle('QA Challenges')
-})
+  test.beforeEach(async ({ page }) => {
+    await page.goto('http://localhost:5173/challenge-1');
+    await expect(page).toHaveTitle('QA Challenges');
+  });
 
-test("Successfully find astrological sign", async({page}) => {
-    await page.getByLabel("name").fill('Xuxa')
-    await page.getByLabel("birthday").fill('27-03-1963')
-    await page.getByRole('button', { name: 'Find Astrological Sign' }).click()
-    await expect(page.getByText("Xuxa, your astrological sign is Aries")).toBeVisible()
-}) 
+  // Helper locators
+  const getNameField = (page: Page) => page.getByLabel(/name/i);
+  const getBirthdayField = (page: Page) => page.getByLabel(/birthday/i);
+  const getSubmitButton = (page: Page) => page.getByRole('button', { name: /find astrological sign/i });
 
-test('Invalid date format', async({page}) =>{
-    await page.getByLabel("name").fill('Xuxa') // Avoid using placeholders whenever possible.
-    await page.getByLabel("birthday").fill('27/03-1963')
-    await page.getByRole('button', { name: 'Find Astrological Sign' }).click()
-    await expect(page.getByText("Invalid date. Please use the format dd-mm-yyyy.")).toBeVisible()
-})
+  // Reusable action helper
+  async function submitForm(page: Page, name: string, birthday: string) {
+    await getNameField(page).fill(name);
+    await getBirthdayField(page).fill(birthday);
+    await getSubmitButton(page).click();
+  }
 
-test('Button is disabled until both name and birthday are entered', async({page}) => {
-   const button = page.getByRole('button', {
-    name:  'Find Astrological Sign'
-    })
+  test('Successfully displays Aries', async ({ page }) => {
+    await submitForm(page, 'Xuxa', '27-03-1963');
+
+    await expect(
+      page.getByText('Xuxa, your astrological sign is Aries')
+    ).toBeVisible();
+  });
+
+  test('Invalid date format', async ({ page }) => {
+    await submitForm(page, 'Xuxa', '27/03-1963');
+
+    await expect(
+      page.getByText('Invalid date. Please use the format dd-mm-yyyy.')
+    ).toBeVisible();
+  });
+
+  test('Button is disabled until both name and birthday are entered', async ({ page }) => {
+    const button = getSubmitButton(page);
+
     await expect(button).toBeDisabled();
-    await page.getByLabel('name').fill('Xuxa');
+
+    await getNameField(page).fill('Xuxa');
     await expect(button).toBeDisabled();
-    await page.getByLabel('birthday').fill('27-03-1963');
+
+    await getBirthdayField(page).fill('27-03-1963');
     await expect(button).toBeEnabled();
+  });
 
-})
-
-})
+});
