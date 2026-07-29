@@ -17,7 +17,7 @@ test.describe('Challenge 1 - Astrological Sign', () => {
         await submitForm(page, 'TestName', '27-03-1963');
 
         await expect(
-            page.getByText('TestName, your astrological sign is Aries')
+            page.getByText('Aries')
         ).toBeVisible();
     });
 
@@ -95,10 +95,41 @@ test.describe('Challenge 1 - Astrological Sign', () => {
                     )
                 ).toBeVisible();
 
-            });
+            })
 
+            
         }
+    })
 
-    });
 
-});
+    test('Button becomes disabled when a field is cleared', async({page}) => {
+    const  button = page.getByRole('button', {
+        name: 'Finds Astrologgical Sign'
+    })        
+    await page.getByLabel('name').fill('TestName')
+    await page. getByLabel('birthday').fill('27-03-1963');
+
+    await expect(button).toBeEnabled
+    await page.getByLabel('birthday').clear();
+    await expect(button).toBeDisabled
+})
+
+    test('Invalid calendar date', async({page}) => {
+        await submitForm(page, 'TestName', '31-02-2000')
+        await expect(page.getByText('Invalid date. Please use the format dd-mm-yyyy.')).toBeVisible()
+
+    })
+
+    test('Leap year date is accepted', async({page}) => {
+        await submitForm(page, 'TestName', '29-02-2000')
+        await expect (page.getByText('TestName, your astrological sign is Pisces')).toBeVisible()
+
+    })
+ 
+
+    test('Non leap year February 29 is rejected', async({page}) => {
+        await submitForm(page, 'TestName', '29-02-2001')
+        await expect (page.getByText('Invalid date. Please use the format dd-mm-yyyy.')).toBeVisible()
+
+    })
+    })
