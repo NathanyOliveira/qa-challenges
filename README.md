@@ -117,3 +117,42 @@ Navigate to **Challenge 1** from the home page.
 - The date field accepts any input, but the expected format is `dd-mm-yyyy` (e.g. `15-03-1990`)
 - Submitting a date in any other format will return an error message
 - On a valid date, the page displays the person's astrological sign
+
+
+
+# Test Notes
+
+## Covered scenarios
+
+### Core functionality
+
+- `User can find astrological sign with valid birthday`
+
+### Form validation
+
+- `Button is disabled until both name and birthday are entered`
+- `Button becomes disabled when a field is cleared`
+
+### Date validation
+
+- `User sees error when birthday format is invalid`
+- `User sees error when birthday is not a valid date`
+- `Leap year date is accepted`
+- `Non leap year February 29 is rejected`
+
+### Zodiac boundary testing
+
+- `Zodiac boundary dates`
+  - Verifies zodiac sign calculation at the transition dates between zodiac signs.
+
+## Known issue found
+
+Invalid calendar dates and invalid date formats display the same validation message:
+
+ "Invalid date. Please use the format dd-mm-yyyy."
+
+This message is misleading because dates such as `31-02-2000` or `29-02-2001` use the correct format but represent invalid calendar dates.
+
+A clearer validation message would distinguish between:
+- invalid birthday format
+- invalid calendar date
